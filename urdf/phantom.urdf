@@ -1,0 +1,13 @@
+<?xml version='1.0'?>
+<robot name="phantom">
+<!-- Base Link -->
+<link name="quad">
+<visual>
+<origin xyz="0 0 0" rpy="0 0 0" />
+<geometry>
+	<!--<mesh filename="package://vehvisual/meshes/maeblimp.stl" scale="0.001 0.001 0.001"/> -->
+	<mesh filename="package://vehvisual/meshes/maeblimp.dae" scale="1 1 1"/>
+</geometry>
+</visual>
+</link>
+</robot>

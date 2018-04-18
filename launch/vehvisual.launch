@@ -1,0 +1,32 @@
+<launch>
+<!-- values passed by command line input -->
+<!-- <arg name="model" /> -->
+<arg name="url" default="package://osm_cartography/tests/fw.osm" />
+<!-- <arg name="gui" default="False" /> -->
+<!-- set these parameters on Parameter Server -->
+<!-- <param name="robot_description" textfile="$(find robot)/urdf/$(arg model)" /> -->
+<!-- <param name="use_gui" value="$(arg gui)"/> -->
+<param name="robot_description"
+textfile="$(find vehvisual)/urdf/phantom.urdf" />
+
+<node name="vehvisualize"
+pkg="vehvisual"
+type="vehvisualize" />
+
+<node name="axistf"
+pkg="tf"
+type="static_transform_publisher"
+args="664308 3625488 0 0 0 0 1 map local_map 100"
+ />
+<!-- start map server -->
+<node pkg="osm_cartography" type="osm_server" name="osm_server" />
+<node pkg="rostopic" type="rostopic" name="fake_gps_fix" args="pub /gps/fix sensor_msgs/NavSatFix --latch --file=$(find rviz_satellite)/launch/demo.gps" output="screen"/>
+<!-- start map visualization -->
+<node pkg="osm_cartography" type="viz_osm" name="viz_osm" >
+  <param name="map_url" value="$(arg url)" />
+  </node>
+<node name="rviz" pkg="rviz" type="rviz"
+args="-f local_map -d $(find vehvisual)/vehvisual.rviz"
+required="true" />
+
+</launch>
